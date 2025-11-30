@@ -1,0 +1,227 @@
+<?xml version="1.0" ?>
+<robot name="Assm" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:property name="body_color" value="Gazebo/Red" />
+<xacro:property name="body_color1" value="Gazebo/blue" />
+<xacro:property name="body_color2" value="Gazebo/yellow" />
+<xacro:property name="body_color3" value="Gazebo/green" />
+
+<!-- Global Gazebo Settings - CRITICAL FIXES -->
+<gazebo>
+  <static>true</static>
+  <gravity>true</gravity>
+  <selfCollide>true</selfCollide>
+</gazebo>
+
+<!-- Base Link Gazebo Properties -->
+<gazebo reference="base_link">
+  <material>${body_color}</material>
+  <mu1>1.0</mu1>
+  <mu2>1.0</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+  <maxVel>0.1</maxVel>
+</gazebo>
+
+<!-- Coxa Links -->
+<gazebo reference="limb_1_1_1">
+  <material>${body_color}</material>
+  <mu1>0.5</mu1>
+  <mu2>0.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="limb_1_1_2">
+  <material>${body_color}</material>
+  <mu1>0.5</mu1>
+  <mu2>0.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="limb_1_1_3">
+  <material>${body_color}</material>
+  <mu1>0.5</mu1>
+  <mu2>0.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="limb_1_1_4">
+  <material>${body_color}</material>
+  <mu1>0.5</mu1>
+  <mu2>0.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<!-- Femur Links -->
+<gazebo reference="limb_2_1_1">
+  <material>${body_color}</material>
+  <mu1>0.5</mu1>
+  <mu2>0.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="limb_2_1_2">
+  <material>${body_color}</material>
+  <mu1>0.5</mu1>
+  <mu2>0.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="limb_2_1_3">
+  <material>${body_color}</material>
+  <mu1>0.5</mu1>
+  <mu2>0.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<gazebo reference="limb_2_1_4">
+  <material>${body_color}</material>
+  <mu1>0.5</mu1>
+  <mu2>0.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+</gazebo>
+
+<!-- Tibia Links with Foot Contact Properties -->
+<gazebo reference="limb_1_3_1">
+  <material>${body_color}</material>
+  <mu1>1.5</mu1>
+  <mu2>1.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+  <maxVel>0.1</maxVel>
+</gazebo>
+
+<gazebo reference="limb_1_3_2">
+  <material>${body_color}</material>
+  <mu1>1.5</mu1>
+  <mu2>1.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+  <maxVel>0.1</maxVel>
+</gazebo>
+
+<gazebo reference="limb_1_3_3">
+  <material>${body_color}</material>
+  <mu1>1.5</mu1>
+  <mu2>1.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+  <maxVel>0.1</maxVel>
+</gazebo>
+
+<gazebo reference="limb_1_3_4">
+  <material>${body_color}</material>
+  <mu1>1.5</mu1>
+  <mu2>1.5</mu2>
+  <kp>10000000.0</kp>
+  <kd>1000.0</kd>
+  <minDepth>0.001</minDepth>
+  <maxVel>0.1</maxVel>
+</gazebo>
+
+<!-- Joint Physics with Higher Damping -->
+<gazebo reference="Revolute_Coxa_1">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+<gazebo reference="Revolute_Coxa_2">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+<gazebo reference="Revolute_Coxa_3">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+<gazebo reference="Revolute_Coxa_4">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+<gazebo reference="Revolute_Femur_1">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+<gazebo reference="Revolute_Femur_2">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+<gazebo reference="Revolute_Femur_3">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+<gazebo reference="Revolute_Femur_4">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+<gazebo reference="Revolute_Tibia_1">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+<gazebo reference="Revolute_Tibia_2">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+<gazebo reference="Revolute_Tibia_3">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+<gazebo reference="Revolute_Tibia_4">
+  <implicitSpringDamper>true</implicitSpringDamper>
+  <springStiffness>0</springStiffness>
+  <springReference>0</springReference>
+  <provideFeedback>true</provideFeedback>
+</gazebo>
+
+</robot>

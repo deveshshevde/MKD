@@ -1,0 +1,123 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <ros2_control name="GazeboSystem" type="system">
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+
+    <!-- Leg 1 -->
+    <joint name="Revolute_Coxa_1">
+      <param name="initial_position">0.00</param>
+      <command_interface name="position">
+        <param name="min">-1.80</param>
+        <param name="max">1.80</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="Revolute_Femur_1">
+      <param name="initial_position">0.62</param>
+      <command_interface name="position">
+        <param name="min">-0.98</param>
+        <param name="max">2.22</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="Revolute_Tibia_1">
+      <param name="initial_position">2.80</param>
+      <command_interface name="position">
+        <param name="min">-0.20</param>
+        <param name="max">5.80</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <!-- Leg 2 -->
+    <joint name="Revolute_Coxa_2">
+      <param name="initial_position">0.00</param>
+      <command_interface name="position">
+        <param name="min">-1.80</param>
+        <param name="max">1.80</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="Revolute_Femur_2">
+      <param name="initial_position">0.00</param>
+      <command_interface name="position">
+        <param name="min">-1.60</param>
+        <param name="max">1.60</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="Revolute_Tibia_2">
+      <param name="initial_position">0.00</param>
+      <command_interface name="position">
+        <param name="min">-3.00</param>
+        <param name="max">3.00</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <!-- Leg 3 -->
+    <joint name="Revolute_Coxa_3">
+      <param name="initial_position">0.00</param>
+      <command_interface name="position">
+        <param name="min">-1.80</param>
+        <param name="max">1.80</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="Revolute_Femur_3">
+      <param name="initial_position">0.83</param>
+      <command_interface name="position">
+        <param name="min">-0.77</param>
+        <param name="max">2.43</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="Revolute_Tibia_3">
+      <param name="initial_position">0.45</param>
+      <command_interface name="position">
+        <param name="min">-2.55</param>
+        <param name="max">3.45</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <!-- Leg 4 -->
+    <joint name="Revolute_Coxa_4">
+      <param name="initial_position">0.00</param>
+      <command_interface name="position">
+        <param name="min">-1.80</param>
+        <param name="max">1.80</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="Revolute_Femur_4">
+      <param name="initial_position">0.00</param>
+      <command_interface name="position">
+        <param name="min">-1.60</param>
+        <param name="max">1.60</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="Revolute_Tibia_4">
+      <param name="initial_position">1.55</param>
+      <command_interface name="position">
+        <param name="min">-1.45</param>
+        <param name="max">4.55</param>
+      </command_interface>
+      <state_interface name="position"/>
+    </joint>
+
+  </ros2_control>
+
+</robot>

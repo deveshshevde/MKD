@@ -1,0 +1,67 @@
+controller_manager:
+  ros__parameters:
+    # General parameters for the controller manager
+    update_rate: 100
+    use_sim_time: true
+
+    # Broadcaster to publish joint states
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    # Controller declarations
+    leg1_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    leg2_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    leg3_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+    leg4_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+# --- Parameters for individual controllers (Base Pose: INITIAL_OFFSETS) ---
+
+leg1_controller:
+  ros__parameters:
+    joints:
+      - Revolute_Coxa_1
+      - Revolute_Femur_1
+      - Revolute_Tibia_1
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+leg2_controller:
+  ros__parameters:
+    joints:
+      - Revolute_Coxa_2
+      - Revolute_Femur_2
+      - Revolute_Tibia_2
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+
+leg3_controller:
+  ros__parameters:
+    joints:
+      - Revolute_Coxa_3
+      - Revolute_Femur_3
+      - Revolute_Tibia_3
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+    # Initial Base Pose for Leg 3: (0.00, 0.83, 0.45)
+
+
+leg4_controller:
+  ros__parameters:
+    joints:
+      - Revolute_Coxa_4
+      - Revolute_Femur_4
+      - Revolute_Tibia_4
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position

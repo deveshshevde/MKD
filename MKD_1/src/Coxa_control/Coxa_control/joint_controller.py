@@ -1,74 +1,134 @@
 #!/usr/bin/env python3
-
 import rclpy
 from rclpy.node import Node
-from controller_manager_msgs.srv import LoadController, SwitchController
+from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+import tkinter as tk
 
-class JointController(Node):
+MIN_VAL = -10.0
+MAX_VAL = 10.0
+
+INITIAL_OFFSETS = {
+    "Revolute_Coxa_1": 0.00,
+    "Revolute_Femur_1": 0.62,
+    "Revolute_Tibia_1": 2.80,
+
+    "Revolute_Coxa_2": 0.00,
+    "Revolute_Femur_2": 0.00,
+    "Revolute_Tibia_2": 0.00,
+
+    "Revolute_Coxa_3": 0.00,
+    "Revolute_Femur_3": 0.83,
+    "Revolute_Tibia_3": 0.45,
+
+    "Revolute_Coxa_4": 0.00,
+    "Revolute_Femur_4": 0.00,
+    "Revolute_Tibia_4": 1.55,
+}
+
+class JointGUI(Node):
     def __init__(self):
-        super().__init__('joint_controller_node')
+        super().__init__('joint_gui')
 
-        # List of controllers from your YAML
-        self.controllers = [
-            'limb1_position_controller',
-            'limb2_position_controller',
-            'limb3_position_controller'
+        self.leg_controllers = {
+            1: "/leg1_controller/joint_trajectory",
+            2: "/leg2_controller/joint_trajectory",
+            3: "/leg3_controller/joint_trajectory",
+            4: "/leg4_controller/joint_trajectory",
+        }
+
+        self.joint_names = [
+            'Revolute_Coxa_',
+            'Revolute_Femur_',
+            'Revolute_Tibia_'
         ]
 
-        # Clients
-        self.load_client = self.create_client(LoadController, '/controller_manager/load_controller')
-        self.switch_client = self.create_client(SwitchController, '/controller_manager/switch_controller')
+        self.pubs = {
+            leg: self.create_publisher(JointTrajectory, topic, 10)
+            for leg, topic in self.leg_controllers.items()
+        }
 
-        while not self.load_client.wait_for_service(timeout_sec=1.0):
-            self.get_logger().info('Waiting for LoadController service...')
+        self.window = tk.Tk()
+        self.window.title("Hexapod Joint GUI")
 
-        while not self.switch_client.wait_for_service(timeout_sec=1.0):
-            self.get_logger().info('Waiting for SwitchController service...')
+        self.widgets = {}
+        row = 0
 
-        self.load_and_start_controllers()
+        for leg in range(1, 5):
+            for joint in self.joint_names:
+                name = f"{joint}{leg}"
 
-    def load_and_start_controllers(self):
-        loaded = []
+                tk.Label(self.window, text=name).grid(row=row, column=0, padx=5, pady=5)
 
-        # Load each controller
-        for c in self.controllers:
-            req = LoadController.Request()
-            req.name = c
-            future = self.load_client.call_async(req)
-            rclpy.spin_until_future_complete(self, future)
-            if future.result() is not None and future.result().ok:
-                self.get_logger().info(f"Loaded controller: {c}")
-                loaded.append(c)
-            else:
-                self.get_logger().error(f"Failed to load controller: {c}")
+                slider = tk.Scale(
+                    self.window, from_=MIN_VAL, to=MAX_VAL, resolution=0.01,
+                    orient=tk.HORIZONTAL, length=200,
+                    command=lambda val, l=leg: self.send_command(l)
+                )
+                slider.grid(row=row, column=1)
 
-        if not loaded:
-            self.get_logger().error("No controllers loaded. Exiting.")
-            return
+                entry = tk.Spinbox(
+                    self.window, from_=MIN_VAL, to=MAX_VAL,
+                    increment=0.01, width=6,
+                    command=lambda l=leg: self.entry_changed(l)
+                )
+                entry.grid(row=row, column=2)
 
-        # Switch controllers to start them
-        switch_req = SwitchController.Request()
-        switch_req.start_controllers = loaded
-        switch_req.stop_controllers = []
-        switch_req.strictness = SwitchController.Request.STRICT
-        switch_req.start_asap = True
-        switch_req.timeout = 0.0
+                self.widgets[name] = (slider, entry)
+                row += 1
 
-        future = self.switch_client.call_async(switch_req)
-        rclpy.spin_until_future_complete(self, future)
-        if future.result() is not None and future.result().ok:
-            self.get_logger().info(f"Controllers started: {loaded}")
-        else:
-            self.get_logger().error(f"Failed to start controllers: {loaded}")
+        # Initialize all widgets with the offset values
+        self.apply_initial_offsets()
 
+        self.window.after(50, self.spin_once)
+
+    def apply_initial_offsets(self):
+        for name, (slider, entry) in self.widgets.items():
+            offset = INITIAL_OFFSETS[name]
+            slider.set(offset)
+            entry.delete(0, tk.END)
+            entry.insert(0, f"{offset:.2f}")
+
+        # Send initial positions to robot
+        for leg in range(1, 5):
+            self.send_command(leg)
+
+    def entry_changed(self, leg):
+        for joint in self.joint_names:
+            name = f"{joint}{leg}"
+            slider, entry = self.widgets[name]
+            try:
+                slider.set(float(entry.get()))
+            except ValueError:
+                pass
+        self.send_command(leg)
+
+    def send_command(self, leg):
+        msg = JointTrajectory()
+        msg.joint_names = [f"{j}{leg}" for j in self.joint_names]
+        pt = JointTrajectoryPoint()
+        pt.positions = []
+
+        for joint in self.joint_names:
+            name = f"{joint}{leg}"
+            slider, entry = self.widgets[name]
+            val = float(slider.get())
+            pt.positions.append(val)
+
+            entry.delete(0, tk.END)
+            entry.insert(0, f"{val:.2f}")
+
+        pt.time_from_start.sec = 1
+        msg.points.append(pt)
+        self.pubs[leg].publish(msg)
+
+    def spin_once(self):
+        rclpy.spin_once(self, timeout_sec=0.01)
+        self.window.after(50, self.spin_once)
 
 def main(args=None):
     rclpy.init(args=args)
-    node = JointController()
-    rclpy.spin(node)
-    node.destroy_node()
-    rclpy.shutdown()
-
+    gui = JointGUI()
+    gui.window.mainloop()
 
 if __name__ == '__main__':
     main()

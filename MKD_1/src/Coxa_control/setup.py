@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
         'joint_controller = Coxa_control.joint_controller:main',
+        'calibration      = Coxa_control.calibration:main'
         ],
     },
 )
