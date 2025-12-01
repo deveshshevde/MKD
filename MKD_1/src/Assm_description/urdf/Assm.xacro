@@ -26,6 +26,24 @@
   </collision>
 </link>
 
+<link name="imu_link">
+    <inertial>
+        <mass value="0.001"/> 
+        <inertia ixx="0.000001" ixy="0.0" ixz="0.0" iyy="0.000001" iyz="0.0" izz="0.000001"/>
+    </inertial>
+    <visual>
+        <geometry>
+            <box size="0.001 0.001 0.001"/>
+        </geometry>
+    </visual>
+</link>
+
+<joint name="imu_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu_link"/>
+    <origin xyz="0 0 0.01" rpy="0 0 0"/> 
+</joint>
+
 <link name="limb_1_1_1">
   <inertial>
     <origin xyz="-0.002315327637535468 -0.024653738379607937 -0.014940106390473835" rpy="0 0 0"/>
@@ -403,6 +421,35 @@
   <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
     <parameters>$(find Assm_description)/config/ros_controller.yaml</parameters>
   </plugin>
+</gazebo>
+
+<gazebo reference="imu_link">
+    <sensor name="imu_sensor" type="imu">
+        <always_on>true</always_on>
+        <update_rate>100.0</update_rate>
+        <visualize>false</visualize>
+        
+        <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+            <ros>
+                <namespace>/</namespace>
+                <argument>imu/data</argument>
+            </ros>
+            <initial_orientation_as_reference>false</initial_orientation_as_reference>
+        </plugin>
+        
+        <imu>
+            <angular_velocity>
+                <x>0.0002 0.0002 0.0002</x>
+                <y>0.0002 0.0002 0.0002</y>
+                <z>0.0002 0.0002 0.0002</z>
+            </angular_velocity>
+            <linear_acceleration>
+                <x>0.002 0.002 0.002</x>
+                <y>0.002 0.002 0.002</y>
+                <z>0.002 0.002 0.002</z>
+            </linear_acceleration>
+        </imu>
+    </sensor>
 </gazebo>
 
 </robot>

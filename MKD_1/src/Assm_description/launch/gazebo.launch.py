@@ -107,10 +107,10 @@ def generate_launch_description():
     # Leg initial positions as ROS2 topic pubs
     # -----------------------------
     leg_positions = [
-        [0.00, 0.62, 2.80],  # Leg 1
-        [0.00, 0.00, 0.00],  # Leg 2
-        [0.00, 0.83, 0.45],  # Leg 3
-        [0.00, 0.00, 1.55],  # Leg 4
+        [0.00, 0.55, 2.79],  # Leg 1
+        [0.00, 0.01, -0.30],  # Leg 2
+        [0.00, 0.79, 0.43],  # Leg 3
+        [0.00, -0.02, 1.28],  # Leg 4
     ]
 
     leg_init_timers = []
